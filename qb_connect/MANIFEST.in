@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include qb_connect *.css
+recursive-include qb_connect *.csv
+recursive-include qb_connect *.html
+recursive-include qb_connect *.ico
+recursive-include qb_connect *.js
+recursive-include qb_connect *.json
+recursive-include qb_connect *.md
+recursive-include qb_connect *.png
+recursive-include qb_connect *.py
+recursive-include qb_connect *.svg
+recursive-include qb_connect *.txt
+recursive-exclude qb_connect *.pyc
