@@ -1,9 +1,11 @@
 # Quickbooks-Connect
 <h2>Getting Started - QuickBooks</h2>
-
+1. Following 6 steps would lead to specific Dashboard
 ![image](https://user-images.githubusercontent.com/120718232/213431603-aec9f731-ab93-41a4-a1ce-4c06f9b04a15.png)
-
+2. For sandbox testing, the dashboard should look like below:
 ![image](https://user-images.githubusercontent.com/120718232/213432282-1ffd55b6-666c-48ae-95ff-43635f6ff0d2.png)
+
+3. Select the Sandbox company, 
 
 
 <h2>Setup Pre-Requisites</h2>
@@ -16,8 +18,12 @@
 ![image](https://user-images.githubusercontent.com/120718232/213428693-0b48a3e1-eaf7-40cb-b45f-2d3820f28936.png)
        
 3. Click on update button and refresh the system with 'F5 key'
-       
-<b>2. Make sure field: Quickbooks ID, has "Allow on submit" checked in all of the forms</b>
+
+<b>2. Creation of fields in Doctype(QuickBooks Migrator)</b>
+Please follow the demo attached. https://drive.google.com/file/d/1VnfjKFMlU-o6WNJpwo4cVpL9arGrqsm-/view?usp=share_link
+
+<b>3. </b>
+<b>4. Make sure field: Quickbooks ID, has "Allow on submit" checked in all of the forms</b>
 
 For instance, the 'Quickbooks ID' field will be present on the following forms:
 ![image](https://user-images.githubusercontent.com/120718232/213429069-ea24f5f1-6f1f-4fc6-a672-f4450b2c3d7c.png)
