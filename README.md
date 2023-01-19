@@ -3,14 +3,14 @@
 <h2>Setup Pre-Requisites</h2>
 
 <b>1. Creation of two fields(Longitude, and Latitude) in Doctype(ADDRESS)</b>
-       1. Go to "Address" and click on go to 'Customize Form' from Menu (three dots)
+
+1. Go to "Address" and click on go to 'Customize Form' from Menu (three dots)
        
-       2. Create two fields at convenient location:
+2. Create two fields at convenient location:
        
           ![image](https://user-images.githubusercontent.com/120718232/213418877-0255bdca-2842-4ddd-896f-0dabcd53aea8.png)
        
-       
-       3. Click on update button and refresh the system with 'F5 key'
+3. Click on update button and refresh the system with 'F5 key'
        
 <b>2. Make sure field: Quickbooks ID, has "Allow on submit" checked in all of the forms</b>
        
