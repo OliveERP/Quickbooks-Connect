@@ -1,4 +1,10 @@
 # Quickbooks-Connect
+<h2>Getting Started - QuickBooks</h2>
+
+![image](https://user-images.githubusercontent.com/120718232/213431603-aec9f731-ab93-41a4-a1ce-4c06f9b04a15.png)
+
+![image](https://user-images.githubusercontent.com/120718232/213432282-1ffd55b6-666c-48ae-95ff-43635f6ff0d2.png)
+
 
 <h2>Setup Pre-Requisites</h2>
 
@@ -12,27 +18,22 @@
 3. Click on update button and refresh the system with 'F5 key'
        
 <b>2. Make sure field: Quickbooks ID, has "Allow on submit" checked in all of the forms</b>
-       
-       For instance, the 'Quickbooks ID' field will be present on the following forms:
-       
-       1. Item
-       
-       2. Customer
-       
-       3. Supplier
-       
-       4. Sales Invoice
-       
-       5. Purchase Invoice
-       
-       6. Address
-       
-       7. Journal Entry
-       
-       In each Customize form, click on edit of "Quickbooks ID" and check the "Allow on Submit" checkbox
+
+For instance, the 'Quickbooks ID' field will be present on the following forms:
+![image](https://user-images.githubusercontent.com/120718232/213429069-ea24f5f1-6f1f-4fc6-a672-f4450b2c3d7c.png)
+
+1. Item
+2. Customer
+3. Supplier
+4. Sales Invoice
+5. Purchase Invoice
+6. Address
+7. Journal Entry
+
+In each Customize form, click on edit of "Quickbooks ID" and check the "Allow on Submit" checkbox
        ![image](https://user-images.githubusercontent.com/120718232/213420340-8c5ac925-4a70-486b-b6d9-188d487ae906.png)
        
-       Update the form and refresh the system to ensure changes.
+Update the form and refresh the system to ensure changes.
 
 <b>3. Creation of a Client Script for 'Quickbooks Migrator'</b>
       
