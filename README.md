@@ -7,8 +7,7 @@
 1. Go to "Address" and click on go to 'Customize Form' from Menu (three dots)
        
 2. Create two fields at convenient location:
-       
-          ![image](https://user-images.githubusercontent.com/120718232/213418877-0255bdca-2842-4ddd-896f-0dabcd53aea8.png)
+![image](https://user-images.githubusercontent.com/120718232/213428693-0b48a3e1-eaf7-40cb-b45f-2d3820f28936.png)
        
 3. Click on update button and refresh the system with 'F5 key'
        
