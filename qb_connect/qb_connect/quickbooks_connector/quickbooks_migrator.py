@@ -1445,6 +1445,10 @@ class QuickBooksMigrator(Document):
         
         # for background job
         # frappe.enqueue(self.post_items, timeout=6000,queue="long",job_name = "Syncing Items")
+        frappe.enqueue_doc("QuickBooks Migrator",
+                           "QuickBooks Migrator", "post_functions", queue="long")
+
+    def post_functions(self):
         self.post_items()
         self.post_customers()
         self.post_suppliers()
@@ -1463,8 +1467,11 @@ class QuickBooksMigrator(Document):
         )
         to_be_post_items = frappe.db.get_all("Item", filters={"quickbooks_id": "", "disabled": 0}, fields=["name"])
         to_be_update_items = frappe.db.sql("""select * from `tabItem` where company = %s and quickbooks_id != "" and modified > %s """, (self.company,self.last_synced), as_dict=1)
+        
+        index = 0
         for update in to_be_update_items:
             try:
+                index = index + 1
                 token = "{}/company/{}/item/{}".format(self.api_endpoint,self.quickbooks_company_id,update.quickbooks_id)
                 get_token = self._get_sync_token(token)
                 sync = json.loads(get_token.text)
@@ -1524,13 +1531,22 @@ class QuickBooksMigrator(Document):
                         "PurchaseDesc": update.description, 
                         "Description": update.description
                     }
+
+                self._publish({
+                    "event": "progress",
+                    "message": _("Updating Items"),
+                    "count": index,
+                    "total": len(to_be_update_items),
+                })
                 response = self._post(query_uri, params=update_data)
                 update_resp = json.loads(response.text)
             except:
                 frappe.log_error(frappe.get_traceback(), "Item Update {0}".format(update.name))
+        
         index = 0
         for item in to_be_post_items:
             try:
+                index = index + 1 
                 item_doc = frappe.get_doc("Item", item.name)
                 if item_doc.item_group == "20-Services" or item_doc.is_fixed_asset == 1:
                     data = {
@@ -1588,8 +1604,11 @@ class QuickBooksMigrator(Document):
         )
         to_be_post_customers = frappe.db.get_all("Customer", filters={"quickbooks_id": "", "disabled": 0, "company": "Manufacturing and Services"}, fields=["name"])
         to_be_update_customers = frappe.db.sql("""select * from `tabCustomer` where company = %s and quickbooks_id != "" and modified > %s """, (self.company, self.last_synced), as_dict=1)
+        
+        index = 0
         for update in to_be_update_customers:
             try:
+                index = index + 1
                 adr = frappe.get_doc("Address", {"address_title": update.name})
                 token = "{}/company/{}/customer/{}".format(self.api_endpoint,self.quickbooks_company_id,update.quickbooks_id)
                 get_token = self._get_sync_token(token)
@@ -1632,11 +1651,19 @@ class QuickBooksMigrator(Document):
                     "sparse": False,
                     "Id": update.quickbooks_id
                 }
+
+                self._publish({
+                    "event": "progress",
+                    "message": _("Updating Customer"),
+                    "count": index,
+                    "total": len(to_be_update_customers),
+                })
             except:
                 frappe.log_error(frappe.get_traceback(), "All Customers are Up to date")
         index = 0
         for customer in to_be_post_customers:
             try:
+                index = index + 1
                 customer_doc = frappe.get_doc("Customer", customer.name)
                 adr = frappe.get_doc("Address", {"address_title": customer_doc.customer_name})
                 data = {
@@ -1666,6 +1693,84 @@ class QuickBooksMigrator(Document):
             self.quickbooks_company_id,
         )
         to_be_post_si = frappe.db.get_all("Sales Invoice", filters={"quickbooks_id":"", "company": self.company, "is_return":['!=', 1], "docstatus":['!=', 2]}, fields=["name"])
+        # to_be_update_si = frappe.db.sql("""select * from `tabSalesInvoice where company = %s and quickbooks_id != "" and modified > %s """, (self.company, self.last_synced), as_dict=1)
+        
+        # index = 0
+        # for update in to_be_update_si:
+        #     update_data = {
+        #         "DocNumber": "1070", 
+        #         "SyncToken": "0", 
+        #         "domain": "QBO", 
+        #         "Balance": 150.0, 
+        #         "BillAddr": {
+        #             "City": "Bayshore", 
+        #             "Line1": "4581 Finch St.", 
+        #             "PostalCode": "94326", 
+        #             "Lat": "INVALID", 
+        #             "Long": "INVALID", 
+        #             "CountrySubDivisionCode": "CA", 
+        #             "Id": "2"
+        #         }, 
+        #         "TxnDate": "2015-07-24", 
+        #         "TotalAmt": 150.0, 
+        #         "CustomerRef": {
+        #             "name": "Amy's Bird Sanctuary", 
+        #             "value": "1"
+        #         }, 
+        #         "CustomerMemo": {
+        #             "value": "Added customer memo."
+        #         }, 
+        #         "ShipAddr": {
+        #             "City": "Bayshore", 
+        #             "Line1": "4581 Finch St.", 
+        #             "PostalCode": "94326", 
+        #             "Lat": "INVALID", 
+        #             "Long": "INVALID", 
+        #             "CountrySubDivisionCode": "CA", 
+        #             "Id": "109"
+        #         }, 
+        #         "LinkedTxn": [], 
+        #         "DueDate": "2015-08-23", 
+        #         "PrintStatus": "NeedToPrint", 
+        #         "EmailStatus": "NotSet", 
+        #         "sparse": false, 
+        #         "Line": [
+        #             {
+        #             "LineNum": 1, 
+        #             "Amount": 150.0, 
+        #             "SalesItemLineDetail": {
+        #                 "TaxCodeRef": {
+        #                 "value": "NON"
+        #                 }, 
+        #                 "ItemRef": {
+        #                 "name": "Services", 
+        #                 "value": "1"
+        #                 }
+        #             }, 
+        #             "Id": "1", 
+        #             "DetailType": "SalesItemLineDetail"
+        #             }, 
+        #             {
+        #             "DetailType": "SubTotalLineDetail", 
+        #             "Amount": 150.0, 
+        #             "SubTotalLineDetail": {}
+        #             }
+        #         ], 
+        #         "ApplyTaxAfterDiscount": false, 
+        #         "CustomField": [
+        #             {
+        #             "DefinitionId": "1", 
+        #             "Type": "StringType", 
+        #             "Name": "Crew #"
+        #             }
+        #         ], 
+        #         "Id": "239", 
+        #         "TxnTaxDetail": {
+        #             "TotalTax": 0
+        #         }
+        #     }
+
+
         index = 0
         for si in to_be_post_si:
             try:
@@ -1765,8 +1870,11 @@ class QuickBooksMigrator(Document):
         )
         to_be_post_supplier = frappe.db.get_all("Supplier", filters={"quickbooks_id": "", "disabled": 0, "company": self.company}, fields=["name"]) 
         to_be_update_supplier = frappe.db.sql("""select * from `tabSupplier` where company = %s and quickbooks_id != "" and modified > %s """, (self.company, self.last_synced), as_dict=1)
+        
+        index = 0
         for update in to_be_update_supplier:
             try:
+                index = index + 1
                 adr = frappe.get_doc("Address", {"address_title": update.name})
                 token = "{}/company/{}/vendor/{}".format(self.api_endpoint,self.quickbooks_company_id,update.quickbooks_id)
                 get_token = self._get_sync_token(token)
@@ -1805,12 +1913,20 @@ class QuickBooksMigrator(Document):
                     "Balance": 0, #needs to confirm, what this would be 
                     "Id": update.quickbooks_id, 
                 }
+
+                self._publish({
+                        "event": "progress",
+                        "message": _("Updating Suppliers"),
+                        "count": index,
+                        "total": len(to_be_update_supplier),
+                    })
             except:
                 frappe.log_error(frappe.get_traceback(), "All Suppliers/ Vendors are Up to date")
         if to_be_post_supplier:
             index = 0
             for supplier in to_be_post_supplier:
                 try:
+                    index = index + 1
                     supplier_doc = frappe.get_doc("Supplier", supplier.name)
                     # for address only
                     adr = frappe.get_doc("Address", {"address_title": update.name})
