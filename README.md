@@ -23,8 +23,8 @@ Please follow this demo for the changes
 https://drive.google.com/file/d/1OIXTJKDFtnIcOpdGo-85ec0-IwxXfXY5/view?usp=share_link
 
 <b>3. Make sure field: Quickbooks ID, has "Allow on submit" checked in all of the forms</b>
-
-For instance, the 'Quickbooks ID' field will be present on the following forms:
+As you have completed the demo above, the quickbooks and erpnext is now connected. This connection has made some changes in the system.
+For instance, the 'Quickbooks ID' field will now be present on the following forms:
 
 ![image](https://user-images.githubusercontent.com/120718232/213429069-ea24f5f1-6f1f-4fc6-a672-f4450b2c3d7c.png)
 
@@ -36,11 +36,12 @@ For instance, the 'Quickbooks ID' field will be present on the following forms:
 6. Address
 7. Journal Entry
 
+We now have to make this field update-able. In order to do that:
 In each Customize form, click on edit of "Quickbooks ID" and check the "Allow on Submit" checkbox
        ![image](https://user-images.githubusercontent.com/120718232/213420340-8c5ac925-4a70-486b-b6d9-188d487ae906.png)
        
 
-      
+
 <b>4. Customer Group "Commercial" should exists in ERPNext</b>
        Go to "Customer Group Tree' and check if "Commercial" exists under "All Customer Group".
        ![image](https://user-images.githubusercontent.com/120718232/213416987-e712dab5-64e1-450b-a213-ad54cbf6956e.png)
