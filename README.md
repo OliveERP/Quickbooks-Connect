@@ -1,5 +1,6 @@
 # Quickbooks-Connect
 <h2>Getting Started - QuickBooks Connector</h2>
+
 Install the app using previous steps of installing the Volods Custom App
 
 In a same manner, create one client script in the system and paste its respective code in it.
@@ -43,10 +44,12 @@ In each Customize form, click on edit of "Quickbooks ID" and check the "Allow on
 
 
 <b>4. Customer Group "Commercial" should exists in ERPNext</b>
-       Go to "Customer Group Tree' and check if "Commercial" exists under "All Customer Group".
-       ![image](https://user-images.githubusercontent.com/120718232/213416987-e712dab5-64e1-450b-a213-ad54cbf6956e.png)
+Go to "Customer Group Tree' and check if "Commercial" exists under "All Customer Group".
+
+![image](https://user-images.githubusercontent.com/120718232/213416987-e712dab5-64e1-450b-a213-ad54cbf6956e.png)
        
-       If not, then click on 'Add New' as shown above and create a new customer group "Commercial"
+
+If not, then click on 'Add New' as shown above and create a new customer group "Commercial"
 
 <b>5. Item Group "All Item Groups" should exists in ERPNext</b>
        Go to "Item Group Tree" and check if "All Item Groups" exists. If not, click on 'Add Child' and create a new item group "All Item Groups"
