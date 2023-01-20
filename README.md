@@ -1,31 +1,31 @@
 # Quickbooks-Connect
-<h2>Getting Started - QuickBooks</h2>
-1. Following 6 steps would lead to specific Dashboard
-![image](https://user-images.githubusercontent.com/120718232/213431603-aec9f731-ab93-41a4-a1ce-4c06f9b04a15.png)
-2. For sandbox testing, the dashboard should look like below:
-![image](https://user-images.githubusercontent.com/120718232/213432282-1ffd55b6-666c-48ae-95ff-43635f6ff0d2.png)
+<h2>Getting Started - QuickBooks Connector</h2>
+Install the app using previous steps of installing the Volods Custom App
 
-3. Select the Sandbox company, 
+In a same manner, create one client script in the system and paste its respective code in it.
 
 
 <h2>Setup Pre-Requisites</h2>
+<b>After this, following changes need to be made/ensured.</b>
 
 <b>1. Creation of two fields(Longitude, and Latitude) in Doctype(ADDRESS)</b>
 
 1. Go to "Address" and click on go to 'Customize Form' from Menu (three dots)
        
 2. Create two fields at convenient location:
+
 ![image](https://user-images.githubusercontent.com/120718232/213428693-0b48a3e1-eaf7-40cb-b45f-2d3820f28936.png)
        
 3. Click on update button and refresh the system with 'F5 key'
 
-<b>2. Creation of fields in Doctype(QuickBooks Migrator)</b>
-Please follow the demo attached. https://drive.google.com/file/d/1VnfjKFMlU-o6WNJpwo4cVpL9arGrqsm-/view?usp=share_link
+<b>2. Changes in Doctype(QuickBooks Migrator)</b>
+Please follow this demo for the changes
+https://drive.google.com/file/d/1OIXTJKDFtnIcOpdGo-85ec0-IwxXfXY5/view?usp=share_link
 
-<b>3. </b>
-<b>4. Make sure field: Quickbooks ID, has "Allow on submit" checked in all of the forms</b>
+<b>3. Make sure field: Quickbooks ID, has "Allow on submit" checked in all of the forms</b>
 
 For instance, the 'Quickbooks ID' field will be present on the following forms:
+
 ![image](https://user-images.githubusercontent.com/120718232/213429069-ea24f5f1-6f1f-4fc6-a672-f4450b2c3d7c.png)
 
 1. Item
@@ -39,19 +39,7 @@ For instance, the 'Quickbooks ID' field will be present on the following forms:
 In each Customize form, click on edit of "Quickbooks ID" and check the "Allow on Submit" checkbox
        ![image](https://user-images.githubusercontent.com/120718232/213420340-8c5ac925-4a70-486b-b6d9-188d487ae906.png)
        
-Update the form and refresh the system to ensure changes.
 
-<b>3. Creation of a Client Script for 'Quickbooks Migrator'</b>
-      
-      1. Add a Client Script
-      
-      2. Type 'QuickBooks Migrator' in Doctype
-      
-      3. Select 'Form' in Apply To
-      
-      4. Click the Enabled checkbox
-      
-      5. Copy and Paste the script 'QuickBooks Migrator' in it and Save
       
 <b>4. Customer Group "Commercial" should exists in ERPNext</b>
        Go to "Customer Group Tree' and check if "Commercial" exists under "All Customer Group".
