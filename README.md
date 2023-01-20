@@ -1,7 +1,7 @@
 # Quickbooks-Connect
 <h2>Getting Started - QuickBooks Connector</h2>
 
-Install the app using previous steps of installing the Volods Custom App
+Install the 'Qb Connect' app using previous steps of installing the volods Custom App
 
 In a same manner, create one client script in the system and paste its respective code in it.
 
