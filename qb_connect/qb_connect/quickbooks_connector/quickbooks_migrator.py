@@ -1541,6 +1541,7 @@ class QuickBooksMigrator(Document):
                 response = self._post(query_uri, params=update_data)
                 update_resp = json.loads(response.text)
             except:
+                self.set_indicator("Failed")
                 frappe.log_error(frappe.get_traceback(), "Item Update {0}".format(update.name))
         
         index = 0
@@ -1595,6 +1596,7 @@ class QuickBooksMigrator(Document):
                 item_doc.quickbooks_id = resp["Item"]["Id"]
                 item_doc.save()
             except:
+                self.set_indicator("Failed")
                 frappe.log_error(frappe.get_traceback(), "Item Sync {0}".format(item_doc.name))
 
     def post_customers(self):
@@ -1659,6 +1661,7 @@ class QuickBooksMigrator(Document):
                     "total": len(to_be_update_customers),
                 })
             except:
+                self.set_indicator("Failed")
                 frappe.log_error(frappe.get_traceback(), "All Customers are Up to date")
         index = 0
         for customer in to_be_post_customers:
@@ -1811,6 +1814,7 @@ class QuickBooksMigrator(Document):
                     
                 frappe.msgprint("Sales Invoice {0} Synced".format(si_doc.name))
             except:
+                self.set_indicator("Failed")
                 frappe.log_error(frappe.get_traceback(), "Sales Invoice Sync {0}".format(si_doc.name))
     
     def post_refundReceipt(self):
@@ -1861,6 +1865,7 @@ class QuickBooksMigrator(Document):
                     })
                     
             except:
+                self.set_indicator("Failed")
                 frappe.log_error(frappe.get_traceback(), "Refund Receipts Sync {0}".format(refund_doc.name))
 
     def post_suppliers(self):
@@ -1957,6 +1962,7 @@ class QuickBooksMigrator(Document):
                     supplier_doc.quickbooks_id = resp["Vendor"]["Id"]
                     supplier_doc.save()
                 except:
+                    self.set_indicator("Failed")
                     frappe.log_error(frappe.get_traceback(), "Supplier/Vendor Sync {0}".format(supplier_doc.name))
         else:
             frappe.msgprint("All Suppliers/Vendors are synced. No new Supplier is found")
@@ -2007,6 +2013,7 @@ class QuickBooksMigrator(Document):
                         })
                         
                 except:
+                    self.set_indicator("Failed")
                     frappe.log_error(frappe.get_traceback(), "Purchase Invoice / Bill Sync {0}".format(pi_doc.name))
         else:
             frappe.msgprint("All Purchase Invoice / Bills are synced. No New Document Found")
@@ -2059,6 +2066,7 @@ class QuickBooksMigrator(Document):
                         })
                      
                 except:
+                    self.set_indicator("Failed")
                     frappe.log_error(frappe.get_traceback(), "Purchase Invoice / Bill Payment Sync {0}".format(pi_doc.name))
         else:
             frappe.msgprint("All Purchase Invoice / Bill Payment are synced. No New Document Found")
@@ -2092,6 +2100,7 @@ class QuickBooksMigrator(Document):
                         jv_doc.quickbooks_id = resp["Payment"]["Id"]
                         jv_doc.save()
                     except:
+                        self.set_indicator("Failed")
                         frappe.log_error(frappe.get_traceback(), "Journal Entry/Payment Sync {0}".format(jv_doc.name))
             else:
                 frappe.msgprint("All Journal Enteries/Payments are synced. No new JV is found")
@@ -2124,28 +2133,12 @@ class QuickBooksMigrator(Document):
                         jv_doc.quickbooks_id = resp["VendorCredit"]["Id"]
                         jv_doc.save()
                     except:
+                        self.set_indicator("Failed")
                         frappe.log_error(frappe.get_traceback(), "Purchase Invoice Sync {0}".format(jv_doc.name))
             else:
                 frappe.msgprint("All Journal Enteries/Payments are synced. No new JV is found")
 
-
-
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+                
     def _get_account_name_by_id(self, quickbooks_id):
         return frappe.get_all(
             "Account", filters={"quickbooks_id": quickbooks_id, "company": self.company}
