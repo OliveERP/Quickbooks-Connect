@@ -1604,7 +1604,7 @@ class QuickBooksMigrator(Document):
             self.api_endpoint,
             self.quickbooks_company_id,
         )
-        to_be_post_customers = frappe.db.get_all("Customer", filters={"quickbooks_id": "", "disabled": 0, "company": "Manufacturing and Services"}, fields=["name"])
+        to_be_post_customers = frappe.db.get_all("Customer", filters={"quickbooks_id": "", "disabled": 0, "company": self.company}, fields=["name"])
         to_be_update_customers = frappe.db.sql("""select * from `tabCustomer` where company = %s and quickbooks_id != "" and modified > %s """, (self.company, self.last_synced), as_dict=1)
         
         index = 0
