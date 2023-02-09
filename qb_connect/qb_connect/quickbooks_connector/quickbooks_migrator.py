@@ -1604,7 +1604,7 @@ class QuickBooksMigrator(Document):
             self.api_endpoint,
             self.quickbooks_company_id,
         )
-        to_be_post_customers = frappe.db.get_all("Customer", filters={"quickbooks_id": "", "disabled": 0, "company": self.company}, fields=["name"])
+        to_be_post_customers = frappe.db.get_all("Customer", filters={"quickbooks_id": "", "disabled": 0, "company": "Manufacturing and Services"}, fields=["name"])
         to_be_update_customers = frappe.db.sql("""select * from `tabCustomer` where company = %s and quickbooks_id != "" and modified > %s """, (self.company, self.last_synced), as_dict=1)
         
         index = 0
@@ -1683,7 +1683,9 @@ class QuickBooksMigrator(Document):
                     "total": len(to_be_post_customers),
                 })
                 response = self._post(query_uri, params=data)
+                return response
                 resp = json.loads(response.text)
+
                 customer_doc.quickbooks_id = resp["Customer"]["Id"]
                 customer_doc.save()
                 frappe.msgprint("Customer {0} Synced".format(customer_doc.customer_name))
@@ -1969,6 +1971,67 @@ class QuickBooksMigrator(Document):
 
 
     def post_purchaseInvoice(self):
+        query_uri = "{}/company/{}/invoice".format(
+            self.api_endpoint,
+            self.quickbooks_company_id,
+        )
+        to_be_post_pi = frappe.db.get_all("Purchase Invoice", filters={"quickbooks_id":"", "company": self.company, "docstatus":['!=', 2]}, fields=["name"])
+        if to_be_post_pi:    
+            index = 0
+            for pi in to_be_post_pi:
+                try:
+                    pi_doc = frappe.get_doc("Purchase Invoice", pi.name)
+                    sup = frappe.get_doc("Supplier", pi.supplier)
+                    line = []
+                    for item in pi_doc.items:
+                        line.append({
+                            "DetailType": "SalesItemLineDetail",
+                            "Amount": item.base_amount,
+                            "Description": "Purchase Invoice",
+                            "SalesItemLineDetail": {
+                                "ItemRef": {
+                                    "value": str(frappe.db.get_value("Item", {"name":item.item_code}, "quickbooks_id"))
+                                }
+                            }
+                        })
+                    data = {
+                        "Line": line,
+                        "CustomerRef": {
+                            "value": str(sup.quickbooks_id),
+                            "name": str(sup.supplier_name)
+                        },
+                        "BillEmail": {
+                            "Address": sup.email_id
+                        },
+                        "BillAddr": {
+                            "Line1": sup.address,
+                            "City": sup.city,
+                            "Country": sup.country
+                        },
+                        TxnDate = pi_doc.posting_date.strftime("%Y-%m-%d")
+                    }    
+                    self._publish({
+                        "event": "progress",
+                        "message": _("Syncing Purchase Invoice"),
+                        "count": index,
+                        "total": len(to_be_post_pi),
+                    })
+                    response = self._post(query_uri, params=data)
+                    resp = json.loads(response.text)
+                    if pi_doc.docstatus == 0:
+                        pi_doc.quickbooks_id = resp["Invoice"]["Id"]
+                        pi_doc.save()
+                    elif pi_doc.docstatus == 1:
+                        pi_doc.update({
+                            "quickbooks_id" : resp["Invoice"]["Id"]
+                        })
+                        
+                except:
+                    self.set_indicator("Failed")
+                    frappe.log_error(frappe.get_traceback(), "Purchase Invoice Sync {0}".format(pi_doc.name))
+        else:
+            frappe.msgprint("All Purchase Invoice are synced. No New Document Found")
+    def post_purchaseInvoice_previously(self):
         query_uri = "{}/company/{}/bill".format(
             self.api_endpoint,
             self.quickbooks_company_id,
@@ -2138,7 +2201,24 @@ class QuickBooksMigrator(Document):
             else:
                 frappe.msgprint("All Journal Enteries/Payments are synced. No new JV is found")
 
-                
+
+
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     def _get_account_name_by_id(self, quickbooks_id):
         return frappe.get_all(
             "Account", filters={"quickbooks_id": quickbooks_id, "company": self.company}
