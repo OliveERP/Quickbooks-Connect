@@ -2008,7 +2008,7 @@ class QuickBooksMigrator(Document):
                             "City": sup.city,
                             "Country": sup.country
                         },
-                        TxnDate = pi_doc.posting_date.strftime("%Y-%m-%d")
+                        "TxnDate": pi_doc.posting_date.strftime("%Y-%m-%d")
                     }    
                     self._publish({
                         "event": "progress",
